@@ -56,20 +56,20 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement add function in Subscriber repository.`
     -   [x] Commit: `Implement list_all function in Subscriber repository.`
     -   [x] Commit: `Implement delete function in Subscriber repository.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
+    -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
     -   [x] Commit: `Create Notification service struct skeleton.`
     -   [x] Commit: `Implement subscribe function in Notification service.`
     -   [x] Commit: `Implement subscribe function in Notification controller.`
     -   [x] Commit: `Implement unsubscribe function in Notification service.`
     -   [x] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
+    -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
     -   [x] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
     -   [x] Commit: `Implement notify function in Notification service to notify each Subscriber.`
     -   [x] Commit: `Implement publish function in Program service and Program controller.`
     -   [x] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [x] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -78,6 +78,22 @@ This is the place for you to write reflections:
 
 #### Reflection Publisher-1
 
+Based on the usage of the observer design pattern, if we have observers with many types and various classes, then using traits to create observers is the right step. However, in the case of BambangShop, its observer, namely Subscriber, consists of only one class. Therefore, there is currently no need to use traits unless there will be the addition of new observers in the future.
+
+Using DashMap is more suitable than HashMap because DashMap provides direct mapping between the type of product and the subscriber who needs it. By using DashMap, we can avoid the need to create two separate vectors to store product URLs and subscribers, which would complicate data management.
+
+DashMap is chosen over HashMap because DashMap is a built-in data structure suitable for multithreading. In the context of BambangShop using multithreading, this is important because the SUBSCRIBER Map will be accessed by many threads. Singleton usage aims to ensure that there is only one instance of that object while the program is running. This helps ensure that the list of subscribers to our products is consolidated into one DashMap, avoiding dispersion in various data structures.
+
 #### Reflection Publisher-2
 
+Separating the Service from the Repository is important to fulfill the single responsibility principle. The Service is responsible for fetching and processing data from the Repository, while the Repository is responsible for accessing and managing the database. This helps in code development and maintenance, avoiding high coupling and enabling easier changes.
+
+The use of Postman is also very useful for testing applications and ensuring that the response generated matches expectations based on the requests made. Postman allows customization of methods such as CRUD, making it easier to check the accuracy of data retrieved through the application.
+
 #### Reflection Publisher-3
+
+In this tutorial, there is a discussion about the push model used. When changes occur in objects such as creation, deletion, or updating, the notification service will call a method that will send updates to all its subscribers.
+
+However, in the NotificationService code, when it needs to notify each subscriber, there may be a long queue if there are many subscribers. This can hinder notification delivery due to computational limitations.
+
+On the other hand, if the pull method is used, each subscriber must actively determine whether the changes in data are relevant to them. The advantage is that subscribers have the freedom to determine what data they fetch and when they do it. However, the downside is that subscribers need to have knowledge of the data source's structure to do this.
